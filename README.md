@@ -12,7 +12,7 @@ Follow these steps to run the Streamlit chatbot on your local machine:
 ## Steps to Run
 1. Navigate to the project directory in your terminal.
    ```bash
-   cd path/to/project
+   cd your_project_directory
    ```
 
 2. Run the Streamlit application:
