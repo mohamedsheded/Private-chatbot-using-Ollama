@@ -59,6 +59,7 @@ llm = ChatOllama(base_url=base_url, model=model)
 system = SystemMessagePromptTemplate.from_template("You are a helpful assistant.")
 human = HumanMessagePromptTemplate.from_template("{input}")
 
+# MessagesPlaceholder is for the chat history saved
 messages = [system, MessagesPlaceholder(variable_name='history'), human]
 
 prompt = ChatPromptTemplate(messages=messages)
