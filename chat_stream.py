@@ -11,7 +11,8 @@ from langchain_core.prompts import (
 )
 
 from langchain_core.runnables.history import RunnableWithMessageHistory
-from langchain_community.chat_message_histories import SQLChatMessageHistory
+from langchain_community.chat_message_histories import SQLChatMessageHistory, ChatMessageHistory
+from langchain_core.chat_history import BaseChatMessageHistory
 
 from langchain_core.output_parsers import StrOutputParser
 
@@ -28,6 +29,14 @@ user_id = st.text_input("Enter your user ID", "Sheded")
 # Create history session state with session_id and connection link
 def get_session_history(session_id):
     return SQLChatMessageHistory(session_id, "sqlite:///chat_history.db")
+
+# # same Function not using SQLChatMessageHistory
+# store ={}
+# def get_session_history(session_id: str) -> BaseChatMessageHistory:
+#     if session_id not in store:
+#         store[session_id] = ChatMessageHistory
+#     return store[session_id]
+    
 
 # Initialize app chat history
 if "chat_history" not in st.session_state:
@@ -63,6 +72,8 @@ runnable_with_history = RunnableWithMessageHistory(
     history_messages_key='history'
 )
 
+# config is for session id , chat is preserved at each session 
+# new session id = new chat history
 def chat_with_llm(session_id, input):
     for output in runnable_with_history.stream({'input': input}, config={'configurable': {'session_id': session_id}}):
         yield output
